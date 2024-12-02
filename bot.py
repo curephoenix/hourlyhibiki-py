@@ -67,7 +67,8 @@ def compress_image(image_path):
     print(f"Compressing image: {image_path}")
     compressed_image_path = image_path + "_compressed.jpg"
     image = Image.open(image_path)
-    image.save(compressed_image_path, "JPEG", quality=85, optimize=True)
+    rgb_image = image.convert("RGB")
+    rgb_image.save(compressed_image_path, "JPEG", quality=85, optimize=True)
     
     # Check the size of the compressed image
     image_size = os.path.getsize(compressed_image_path)
@@ -79,7 +80,7 @@ def compress_image(image_path):
     print(f"Resizing image: {image_path}")
     size_ratio = size_limit / image_size * 0.9  # 90% of the size limit as a buffer
     resized_image_path = image_path + "_resized.jpg"
-    resized_image = image.resize((int(image.width * size_ratio), int(image.height * size_ratio)))
+    resized_image = rgb_image.resize((int(image.width * size_ratio), int(image.height * size_ratio)))
     resized_image.save(resized_image_path, "JPEG", quality=85, optimize=True)
     return resized_image_path
 

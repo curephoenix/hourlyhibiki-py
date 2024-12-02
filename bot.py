@@ -1,6 +1,5 @@
 import os
 import glob
-import subprocess
 import random
 from PIL import Image
 from atproto import Client, models
@@ -22,8 +21,7 @@ LOG_FILE = "posted_images.log"  # Log file to track posted images
 def get_next_image(directory="images/"):
     """Retrieve the next unposted image to post based on numerical order."""
     images = glob.glob(directory + "*")
-    image_open = images[random.randint(0,len(images))-1]
-    image_size = os.path.getsize(image_open)
+    random.shuffle(images)  # Shuffle the images for randomness
     if not images:
         print("No images found in the directory.")
         return None
